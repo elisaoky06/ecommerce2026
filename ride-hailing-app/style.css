@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background: #f4f6f6;
+    background: #9ddbec;
     color: #1a1a1a;
     margin: 0;
     padding: 0;
@@ -18,7 +18,7 @@ h1, h2 {
 
 a.btn, button {
     display: inline-block;
-    background: #0b3d2e;
+    background: #1316be;
     color: #fff;
     padding: 8px 16px;
     border-radius: 6px;
