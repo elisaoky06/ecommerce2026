@@ -17,6 +17,7 @@ function registerCustomer() {
 
 	// A simple regular expression to check for a basic "something@something.something" shape
 	var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 	// Client-side validation: stop here if any required field is empty.
 	// This is just for a fast, friendly response in the browser - the
@@ -32,6 +33,11 @@ function registerCustomer() {
 		messageEl.textContent = "Please enter a valid email address.";
 		return;
 	}
+
+	if (!passwordPattern.test(pass)) {
+	messageEl.textContent = "Password must be 8+ characters with uppercase, lowercase, a number and a special character (@$!%*?&).";
+	return;
+}
 
 	// FormData automatically collects every input's name="" and value
 	// from the form, so we don't have to build the request body by hand.
@@ -109,10 +115,19 @@ function loginCustomer() {
 				window.location.href = "../index.php";
 			}
 		})
-		.catch(function () {
+
+				.catch(function () {
 			messageEl.textContent = "Something went wrong. Please try again.";
 		});
 }
+
+function togglePassword() {
+	var field = document.getElementById("customer_pass");
+	field.type = field.type === "password" ? "text" : "password";
+}
+
+
+
 
 // To keep building this app, add one function here for each form/action
 // pair you create (e.g. a future updateCustomer() or deleteCustomer()).

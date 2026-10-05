@@ -20,9 +20,13 @@ $city    = $_POST['customer_city'] ?? '';
 $contact = $_POST['customer_contact'] ?? '';
 $image   = $_POST['customer_image'] ?? null; // optional field, can be empty
 
+
+$role = 2;
+
+
 // user_role isn't collected from the form - every new sign-up is a
 // regular customer (role 2), so it's hardcoded here.
-$role    = 2;
+//$role    = 2;
 
 // Server-side validation. The JavaScript in js/customer.js already checks
 // this before sending the request, but a server-side check is still
@@ -33,6 +37,11 @@ if ($name === '' || $email === '' || $pass === '' || $country === '' || $city ==
     exit;
 }
 
+
+if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $pass)) {
+    echo json_encode(["success" => false, "message" => "Password must be 8+ characters with uppercase, lowercase, a number and a special character."]);
+    exit;
+}
 // Never store plain-text passwords. password_hash() turns the password
 // into a secure, one-way hash before it ever reaches the database.
 $hashedPass = password_hash($pass, PASSWORD_DEFAULT);

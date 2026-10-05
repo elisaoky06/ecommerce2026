@@ -1,8 +1,7 @@
-<?php require_once "core/core.php"; ?>
-<!--
-	This is the homepage / entry point of the app.
-	It links out to the two customer pages under the view/ folder.
--->
+<?php
+
+require_once "core/core.php";
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,18 +11,38 @@
 	<title>Ecom LAB</title>
 </head>
 <body>
-	<h1>Welcome to Elisa Okyere's shoppn Website</h1>
-	<nav>
-		<?php if (is_logged_in()): ?>
-			Welcome <?= htmlspecialchars($_SESSION['customer_name']) ?> |
-			<a href="view/my_account.php">My Account</a> |
-			<a href="logout.php">Logout</a>
-		<?php else: ?>
-			<a href="views/login.php">Login</a> |
-			<a href="views/register.php">Register</a>
+
+	<section class="hero">
+		<nav class="hero-nav">
+			<?php if (is_logged_in()): ?>
+				
+				<a href="logout.php">Logout</a>
+
+				<?php if (is_admin()): ?>
+					<a href="views/admin/brand.php">Manage Brands</a>
+					<a href="views/admin/category.php">Manage Categories</a>
+
+				<?php else: ?>
+					<a href="views/browse.php">Brands</a>
+				<?php endif; ?>
+			<?php else: ?>
+				<a href="views/login.php">Login</a>
+				<a href="views/register.php">Register</a>
+			<?php endif; ?>
+		</nav>
+
+		<p class="eyebrow">
+			<?php if (is_logged_in()): ?>
+				Welcome <?= htmlspecialchars($_SESSION['customer_name']) ?>
+			<?php else: ?>
+				Welcome
+			<?php endif; ?>
+		</p>
+		<h1>SHOPPN by Elisa.</h1>
+
+		<?php if (!is_admin()): ?>
+			<a href="views/browse.php">Explore our brands & categories &rarr;</a>
 		<?php endif; ?>
-		|
-		<a href="views/customers.php">View All Customers</a>
-	</nav>
+	</section>
 </body>
 </html>

@@ -18,9 +18,9 @@
 
 	<!-- Simple navigation so you can move between the pages of the app -->
 	<nav>
-		<a href="../index.php">Home</a> |
-		<a href="customers.php">View All Customers</a>
-	</nav>
+	<a href="../index.php">Home</a> |
+	<a href="login.php">Login</a>
+</nav>
 
 	<!--
 		Each input's "name" attribute matches a column in the `customer`
@@ -39,7 +39,10 @@
 		</div>
 		<div>
 			<label>Password</label>
-			<input type="password" name="customer_pass" id="customer_pass">
+	<input type="password" name="customer_pass" id="customer_pass">
+	<label style="margin-top:10px; text-transform:none; letter-spacing:0; cursor:pointer;">
+		<input type="checkbox" onclick="togglePassword()"> Show password
+	</label>
 		</div>
 		<div>
 			<label>Country</label>
@@ -57,14 +60,14 @@
 			<label>Image (optional)</label>
 			<input type="text" name="customer_image" id="customer_image">
 		</div>
+
+		
+
 		<div>
-			<!--
-				type="button" (not "submit") stops the browser from
-				trying to reload the page. Instead, clicking it calls
-				the registerCustomer() function defined in js/customer.js.
-			-->
-			<button type="button" onclick="registerCustomer()">Register</button>
-		</div>
+	<button type="button" onclick="registerCustomer()">Register</button>
+	<a href="login.php"><button type="button">Login</button></a>
+</div>
+
 	</form>
 
 	<!-- Validation/success/error messages get written into here by customer.js -->

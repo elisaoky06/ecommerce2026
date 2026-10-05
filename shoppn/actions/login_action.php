@@ -41,7 +41,15 @@ if ($result['success']) {
     $_SESSION['customer_email'] = $result['customer']['customer_email'];
     $_SESSION['user_role']      = $result['customer']['user_role'];
 
-    echo json_encode(["success" => true, "message" => "Login successful."]);
-} else {
+    $redirect = ((int)$_SESSION['user_role'] === 1)
+        ? "../views/admin/brand.php"
+        : "../views/browse.php";
+
+    echo json_encode([
+        "success"  => true,
+        "message"  => "Login successful.",
+        "redirect" => $redirect
+    ]);
+} else{
     echo json_encode(["success" => false, "message" => $result['error']]);
 }
