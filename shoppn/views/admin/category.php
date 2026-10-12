@@ -20,11 +20,9 @@ if (isset($_GET['edit_id'])) {
     <title>Manage Categories</title>
 </head>
 <body>
-    <nav>
-        <a href="../../index.php">Home</a>
-        <a href="brand.php">Manage Brands</a>
-        <a href="../customers.php">View All Customers</a>
-    </nav>
+<div class="admin-wrap">
+<?php include __DIR__ . '/../layout/sidebar.php'; ?>
+<main class="admin-main">
 
     <h2>Manage Categories</h2>
 
@@ -52,7 +50,7 @@ if (isset($_GET['edit_id'])) {
         </form>
     <?php endif; ?>
 
-        <table border="1" cellpadding="6">
+    <table border="1" cellpadding="6">
         <?php foreach ($categories as $cat): ?>
             <tr>
                 <td><?= htmlspecialchars($cat['cat_name']); ?></td>
@@ -74,6 +72,9 @@ if (isset($_GET['edit_id'])) {
         </form>
     </dialog>
 
+</main>
+</div>
+
     <script>
     function askDelete(id, name) {
         document.getElementById('deleteId').value = id;
@@ -81,7 +82,6 @@ if (isset($_GET['edit_id'])) {
         document.getElementById('deleteBox').showModal();
     }
     </script>
-
 
 </body>
 </html>

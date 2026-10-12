@@ -15,11 +15,9 @@ $brands = $controller->getAllBrands();
     <title>Manage Brands</title>
 </head>
 <body>
-    <nav>
-        <a href="<?= BASE_URL ?>index.php">Home</a>
-        <a href="<?= BASE_URL ?>views/admin/category.php">Manage Categories</a>
-        <a href="<?= BASE_URL ?>views/customers.php">View All Customers</a>
-    </nav>
+<div class="admin-wrap">
+<?php include __DIR__ . '/../layout/sidebar.php'; ?>
+<main class="admin-main">
 
     <h2>Manage Brands</h2>
 
@@ -69,6 +67,9 @@ $brands = $controller->getAllBrands();
             <button type="button" onclick="document.getElementById('deleteBox').close()">No</button>
         </form>
     </dialog>
+
+</main>
+</div>
 
     <script>
     function askEdit(id, name) {

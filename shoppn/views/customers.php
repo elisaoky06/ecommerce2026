@@ -15,14 +15,9 @@ $customers = getAllCustomersList();
 	<title>All Customers</title>
 </head>
 <body>
-	<h1>All Customers</h1>
+	<?php include __DIR__ . '/layout/sidebar.php'; ?>
 
-	<nav>
-		<a href="../index.php">Home</a> |
-		<a href="admin/brand.php"> Manage Brands</a> |
-		<a href="register.php">Register Customer</a> |
-		<a href="admin/category.php">Manage Categories</a>
-	</nav>
+	<h2>All Customers</h2>
 
 	<table border="1" cellpadding="5" cellspacing="0">
 		<thead>

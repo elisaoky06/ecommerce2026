@@ -1,6 +1,9 @@
 <?php
 
 require_once "core/core.php";
+
+$sidebarFile = __DIR__ . '/views/layout/sidebar.php';
+$useSidebar  = is_admin() && file_exists($sidebarFile);
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,24 +15,30 @@ require_once "core/core.php";
 </head>
 <body>
 
+<?php if ($useSidebar): ?>
+<div class="admin-wrap">
+<?php include $sidebarFile; ?>
+<div class="page-main">
+<?php endif; ?>
+
 	<section class="hero">
+		<?php if (!$useSidebar): ?>
 		<nav class="hero-nav">
-			<?php if (is_logged_in()): ?>
-				
+			<?php if (is_admin()): ?>
+				<a href="views/admin/brand.php">Manage Brands</a>
+				<a href="views/admin/category.php">Manage Categories</a>
+				<a href="views/admin/product.php">Add Product</a>
+				<a href="views/all_products.php">All Products</a>
+				<a href="views/customers.php">Customers</a>
 				<a href="logout.php">Logout</a>
-
-				<?php if (is_admin()): ?>
-					<a href="views/admin/brand.php">Manage Brands</a>
-					<a href="views/admin/category.php">Manage Categories</a>
-
-				<?php else: ?>
-					<a href="views/browse.php">Brands</a>
-				<?php endif; ?>
+			<?php elseif (is_logged_in()): ?>
+				<a href="logout.php">Logout</a>
 			<?php else: ?>
 				<a href="views/login.php">Login</a>
 				<a href="views/register.php">Register</a>
 			<?php endif; ?>
 		</nav>
+		<?php endif; ?>
 
 		<p class="eyebrow">
 			<?php if (is_logged_in()): ?>
@@ -41,8 +50,14 @@ require_once "core/core.php";
 		<h1>SHOPPN by Elisa.</h1>
 
 		<?php if (!is_admin()): ?>
-			<a href="views/browse.php">Explore our brands & categories &rarr;</a>
+			<a href="views/products.php">Explore our shop &rarr;</a>
 		<?php endif; ?>
 	</section>
+
+<?php if ($useSidebar): ?>
+</div>
+</div>
+<?php endif; ?>
+
 </body>
 </html>

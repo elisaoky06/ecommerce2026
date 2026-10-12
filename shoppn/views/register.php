@@ -38,11 +38,13 @@
 			<input type="text" name="customer_email" id="customer_email">
 		</div>
 		<div>
+			
 			<label>Password</label>
 	<input type="password" name="customer_pass" id="customer_pass">
 	<label style="margin-top:10px; text-transform:none; letter-spacing:0; cursor:pointer;">
 		<input type="checkbox" onclick="togglePassword()"> Show password
 	</label>
+
 		</div>
 		<div>
 			<label>Country</label>

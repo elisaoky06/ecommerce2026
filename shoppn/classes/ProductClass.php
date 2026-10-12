@@ -24,8 +24,7 @@ class ProductClass extends Database
         return $this->execute("DELETE FROM brands WHERE brand_id = ?", [$id]);
     }
 
-
-        public function addCategory($name)
+    public function addCategory($name)
     {
         return $this->execute("INSERT INTO categories (cat_name) VALUES (?)", [$name]);
     }
@@ -45,7 +44,7 @@ class ProductClass extends Database
         return $this->execute("UPDATE categories SET cat_name = ? WHERE cat_id = ?", [$name, $id]);
     }
 
-        public function getLatestBrandIdByName($name)
+    public function getLatestBrandIdByName($name)
     {
         $row = $this->fetchOne("SELECT brand_id FROM brands WHERE brand_name = ? ORDER BY brand_id DESC", [$name]);
         return $row ? (int)$row['brand_id'] : 0;
@@ -60,7 +59,7 @@ class ProductClass extends Database
         return true;
     }
 
-        public function deleteCategory($id)
+    public function deleteCategory($id)
     {
         return $this->execute("DELETE FROM categories WHERE cat_id = ?", [$id]);
     }
@@ -78,4 +77,67 @@ class ProductClass extends Database
             ORDER BY b.brand_name ASC
         ");
     }
+
+    public function addProduct($cat, $brand, $title, $price, $desc, $image, $keywords)
+    {
+        return $this->execute(
+            "INSERT INTO products (product_cat, product_brand, product_title, product_price, product_desc, product_image, product_keywords) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [$cat, $brand, $title, $price, $desc, $image, $keywords]
+        );
+    }
+
+    public function getAllProducts()
+    {
+        return $this->fetchAll("
+            SELECT p.*, c.cat_name, b.brand_name
+            FROM products p
+            JOIN categories c ON p.product_cat = c.cat_id
+            JOIN brands b ON p.product_brand = b.brand_id
+            ORDER BY p.product_id DESC
+        ");
+    }
+
+    public function getProductById($id)
+{
+    return $this->fetchOne("
+        SELECT p.*, c.cat_name, b.brand_name
+        FROM products p
+        JOIN categories c ON p.product_cat = c.cat_id
+        JOIN brands b ON p.product_brand = b.brand_id
+        WHERE p.product_id = ?
+    ", [$id]);
 }
+
+public function updateProduct($id, $cat, $brand, $title, $price, $desc, $image, $keywords)
+{
+    return $this->execute(
+        "UPDATE products SET product_cat = ?, product_brand = ?, product_title = ?, product_price = ?, product_desc = ?, product_image = ?, product_keywords = ? WHERE product_id = ?",
+        [$cat, $brand, $title, $price, $desc, $image, $keywords, $id]
+    );
+}
+
+public function deleteProduct($id)
+{
+    return $this->execute("DELETE FROM products WHERE product_id = ?", [$id]);
+}
+
+public function getFilteredProducts($catId = 0, $brandId = 0, $q = '')
+{
+    $sql = "SELECT p.*, c.cat_name, b.brand_name
+            FROM products p
+            JOIN categories c ON p.product_cat = c.cat_id
+            JOIN brands b ON p.product_brand = b.brand_id
+            WHERE 1=1";
+    $params = [];
+    if ($catId > 0)   { $sql .= " AND p.product_cat = ?";   $params[] = $catId; }
+    if ($brandId > 0) { $sql .= " AND p.product_brand = ?"; $params[] = $brandId; }
+    if ($q !== '') {
+        $like = '%' . addcslashes($q, '%_\\') . '%';
+        $sql .= " AND (p.product_title LIKE ? OR p.product_keywords LIKE ? OR b.brand_name LIKE ? OR c.cat_name LIKE ?)";
+        array_push($params, $like, $like, $like, $like);
+    }
+    $sql .= " ORDER BY p.product_id DESC";
+    return $this->fetchAll($sql, $params);
+}
+}
+
