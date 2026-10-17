@@ -31,3 +31,9 @@ function require_admin()
         exit;
     }
 }
+
+if (!function_exists('get_ip')) {
+    function get_ip() {
+        return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+    }
+}
